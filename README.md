@@ -3,6 +3,7 @@
 conda activate odise
 
 cd /mnt/c/Users/USER/Desktop/ODISE
+
 python -u demo/demo.py \
   --input demo/examples/coco.jpg \
   --output demo/coco_pred.jpg \
