@@ -9,7 +9,7 @@ python -u demo/demo.py \
   --output demo/coco_pred.jpg \
   --vocab "black pickup truck, pickup truck; blue sky, sky"
 
-
+https://chatgpt.com/share/68bdb33c-b724-8012-94a4-3b4adbdcd503
 # 1) 基本建置工具
 sudo apt-get update
 sudo apt-get install -y build-essential cmake ninja-build \
