@@ -1,4 +1,5 @@
 # conda-activate-odise
+<img width="784" height="598" alt="image" src="https://github.com/user-attachments/assets/5fe5e7b7-228c-495d-81c5-4bc746d2dffc" />
 
 conda activate odise
 
