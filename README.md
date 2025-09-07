@@ -36,3 +36,32 @@ python demo/demo.py \
   --input demo/examples/coco.jpg \
   --output demo/coco_pred.jpg \
   --vocab "black pickup truck, pickup truck; blue sky, sky"
+
+
+  conda activate odise
+
+# 1) 釘住會出事的版本：NumPy 回到 <2、Pillow 回到 <10
+pip install "numpy<2" "pillow<10" --upgrade
+
+# 2) 釘回與 torch=1.13.1 相容的 torchvision
+pip install "torchvision==0.14.1" --no-deps
+
+# 3) 升級 conda 的 libstdc++/libgcc，解決 GLIBCXX_3.4.32
+conda install -y -c conda-forge "libstdcxx-ng>=12" "libgcc-ng>=12"
+
+# 確保 conda 的 lib 會被優先載入
+export LD_LIBRARY_PATH="$CONDA_PREFIX/lib:$LD_LIBRARY_PATH"
+
+# 4) 重新安裝 detectron2（先走 CPU 版把 demo 跑通；之後要 GPU 我再幫你切回）
+pip uninstall -y detectron2 || true
+export FORCE_CUDA=0
+pip install --no-cache-dir "git+https://github.com/facebookresearch/detectron2.git@v0.6"
+
+# 5) 快速自檢
+python - <<'PY'
+import torch, PIL, numpy as np
+print("Torch:", torch.__version__, "CUDA?", torch.cuda.is_available())
+print("Pillow:", PIL.__version__)
+print("NumPy:", np.__version__)
+PY
+
