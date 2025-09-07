@@ -10,6 +10,41 @@ python -u demo/demo.py \
   --vocab "black pickup truck, pickup truck; blue sky, sky"
 
 https://chatgpt.com/share/68bdb33c-b724-8012-94a4-3b4adbdcd503
+
+conda activate odise
+
+# 0) 只用 CPU
+export CUDA_VISIBLE_DEVICES=""
+
+# 1) 讓 Python 找得到 MSDA .so 與 Mask2Former 的套件
+export PYTHONPATH="/home/nina/Mask2Former:/home/nina/Mask2Former/mask2former/modeling/pixel_decoder/ops:$PYTHONPATH"
+
+# 2) 讓動態連結器找得到 PyTorch 的 libc10 等
+TORCH_LIB_DIR=$(python -c 'import os, torch; print(os.path.join(os.path.dirname(torch.__file__),"lib"))')
+export LD_LIBRARY_PATH="$CONDA_PREFIX/lib:$TORCH_LIB_DIR:$LD_LIBRARY_PATH"
+
+# 3) 快測：MSDA 能 import、CUDA 已關
+python - <<'PY'
+import os, sys, torch
+print("CUDA_VISIBLE_DEVICES =", repr(os.environ.get("CUDA_VISIBLE_DEVICES")))
+print("torch.cuda.is_available() ->", torch.cuda.is_available())
+print("sys.path[0:3] ->", sys.path[0:3])
+import MultiScaleDeformableAttention as MSDA
+print("MSDA OK:", MSDA.__file__)
+PY
+
+# 4) 跑 demo（CPU）
+cd /mnt/c/Users/USER/Desktop/ODISE
+python -u demo/demo.py \
+  --input demo/examples/coco.jpg \
+  --output demo/coco_pred.jpg \
+  --vocab "black pickup truck, pickup truck; blue sky, sky" \
+  --opts train.device=cpu model.device=cpu
+
+
+
+
+
 # 1) 基本建置工具
 sudo apt-get update
 sudo apt-get install -y build-essential cmake ninja-build \
