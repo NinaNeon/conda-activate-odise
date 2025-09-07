@@ -11,6 +11,9 @@ python -u demo/demo.py \
 
 https://chatgpt.com/share/68bdb33c-b724-8012-94a4-3b4adbdcd503
 
+`MultiScaleDeformableAttention` 又找不到是因為你這個新 shell 沒把 **PYTHONPATH / LD\_LIBRARY\_PATH** 設回來（之前那次能過就是因為有設）。照下面一次跑完就好：
+
+```bash
 conda activate odise
 
 # 0) 只用 CPU
@@ -40,9 +43,7 @@ python -u demo/demo.py \
   --output demo/coco_pred.jpg \
   --vocab "black pickup truck, pickup truck; blue sky, sky" \
   --opts train.device=cpu model.device=cpu
-
-
-
+```
 
 
 # 1) 基本建置工具
