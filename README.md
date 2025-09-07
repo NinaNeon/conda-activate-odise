@@ -64,4 +64,29 @@ print("Torch:", torch.__version__, "CUDA?", torch.cuda.is_available())
 print("Pillow:", PIL.__version__)
 print("NumPy:", np.__version__)
 PY
+# 安裝 CUDA 11.6 Toolkit（提供 nvcc），之前若已裝可略過
+sudo apt-get update
+sudo apt-get install -y build-essential cmake ninja-build \
+    libglib2.0-0 libsm6 libxext6 libxrender-dev
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.1-1_all.deb
+sudo dpkg -i cuda-keyring_1.1-1_all.deb
+sudo apt-get update
+sudo apt-get -y install cuda-toolkit-11-6
+
+# 設定
+export CUDA_HOME=/usr/local/cuda-11.6
+export PATH=$CUDA_HOME/bin:$PATH
+export LD_LIBRARY_PATH="$CONDA_PREFIX/lib:$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
+nvcc -V   # 應顯示 release 11.6
+
+# 重裝 GPU 版 detectron2（移除 FORCE_CUDA）
+conda activate odise
+pip uninstall -y detectron2
+pip install --no-cache-dir "git+https://github.com/facebookresearch/detectron2.git@v0.6"
+
+python - <<'PY'
+import torch, detectron2
+print("Torch:", torch.__version__, "CUDA?", torch.cuda.is_available())
+print("D2:", detectron2.__version__)
+PY
 
