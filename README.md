@@ -1,3 +1,42 @@
+
+`MultiScaleDeformableAttention` 又找不到是因為你這個新 shell 沒把 **PYTHONPATH / LD\_LIBRARY\_PATH** 設回來（之前那次能過就是因為有設）。照下面一次跑完就好：
+
+```bash
+conda activate odise
+
+# 0) 只用 CPU
+export CUDA_VISIBLE_DEVICES=""
+
+# 1) 讓 Python 找得到 MSDA .so 與 Mask2Former 的套件
+export PYTHONPATH="/home/nina/Mask2Former:/home/nina/Mask2Former/mask2former/modeling/pixel_decoder/ops:$PYTHONPATH"
+
+# 2) 讓動態連結器找得到 PyTorch 的 libc10 等
+TORCH_LIB_DIR=$(python -c 'import os, torch; print(os.path.join(os.path.dirname(torch.__file__),"lib"))')
+export LD_LIBRARY_PATH="$CONDA_PREFIX/lib:$TORCH_LIB_DIR:$LD_LIBRARY_PATH"
+
+# 3) 快測：MSDA 能 import、CUDA 已關
+python - <<'PY'
+import os, sys, torch
+print("CUDA_VISIBLE_DEVICES =", repr(os.environ.get("CUDA_VISIBLE_DEVICES")))
+print("torch.cuda.is_available() ->", torch.cuda.is_available())
+print("sys.path[0:3] ->", sys.path[0:3])
+import MultiScaleDeformableAttention as MSDA
+print("MSDA OK:", MSDA.__file__)
+PY
+
+# 4) 跑 demo（CPU）
+cd /mnt/c/Users/USER/Desktop/ODISE
+python -u demo/demo.py \
+  --input demo/examples/coco.jpg \
+  --output demo/coco_pred.jpg \
+  --vocab "black pickup truck, pickup truck; blue sky, sky" \
+  --opts train.device=cpu model.device=cpu
+```
+
+
+
+
+
 # conda-activate-odise
 <img width="784" height="598" alt="image" src="https://github.com/user-attachments/assets/5fe5e7b7-228c-495d-81c5-4bc746d2dffc" />
 
