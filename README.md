@@ -33,6 +33,7 @@ python -u demo/demo.py \
   --opts train.device=cpu model.device=cpu
 ```bash
 
+
 ```bash
 conda activate odise
 
@@ -56,6 +57,8 @@ m = importlib.import_module("ldm.models.diffusion.ddpm")
 print("ldm OK ->", m.__name__)
 PY
 ```
+
+
 ```bash
 conda activate odise
 
@@ -84,6 +87,8 @@ python -u demo/demo.py \
   --vocab "black pickup truck, pickup truck; blue sky, sky"
 
 ```
+
+
 
 # conda-activate-odise
 <img width="784" height="598" alt="image" src="https://github.com/user-attachments/assets/5fe5e7b7-228c-495d-81c5-4bc746d2dffc" />
