@@ -31,11 +31,34 @@ python -u demo/demo.py \
   --output demo/coco_pred.jpg \
   --vocab "black pickup truck, pickup truck; blue sky, sky" \
   --opts train.device=cpu model.device=cpu
+```bash
+
+```bash
+conda activate odise
+
+# 1) 移除之前裝到的空殼
+pip uninstall -y latent-diffusion
+
+# 2) 裝 unzip（解壓 zip 需要）
+sudo apt-get update -y && sudo apt-get install -y unzip
+
+# 3) 下載並安裝 stable-diffusion（內含 ldm 套件）
+tmp=/tmp/ldm && rm -rf "$tmp" && mkdir -p "$tmp" && cd "$tmp"
+wget -O sd.zip https://codeload.github.com/CompVis/stable-diffusion/zip/refs/heads/main
+unzip sd.zip
+cd stable-diffusion-main
+pip install --no-deps -U .
+
+# 4) 驗證 ldm 是否可匯入
+python - <<'PY'
+import ldm, importlib
+m = importlib.import_module("ldm.models.diffusion.ddpm")
+print("ldm OK ->", m.__name__)
+PY
 ```
+```bash
 
-
-
-
+```
 
 # conda-activate-odise
 <img width="784" height="598" alt="image" src="https://github.com/user-attachments/assets/5fe5e7b7-228c-495d-81c5-4bc746d2dffc" />
