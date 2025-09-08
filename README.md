@@ -57,6 +57,31 @@ print("ldm OK ->", m.__name__)
 PY
 ```
 ```bash
+conda activate odise
+
+# 1) 確認你有剛剛抓下來的 stable-diffusion 目錄
+SD=/tmp/ldm/stable-diffusion-main
+ls -d "$SD/ldm" || echo "!! 找不到 $SD/ldm，若不存在先重新下載 zip 再解壓"
+
+# 2) 臨時加到這個 shell 的 PYTHONPATH
+export PYTHONPATH="$SD:$PYTHONPATH"
+
+# 3) 快測 import
+python - <<'PY'
+import sys
+print("sys.path[0:2] =", sys.path[:2])
+import ldm, importlib
+m = importlib.import_module("ldm.models.diffusion.ddpm")
+print("ldm OK ->", m.__name__)
+PY
+
+# 4) 跑 demo（可先用 CPU 驗證流程通不通）
+# export CUDA_VISIBLE_DEVICES=""
+cd /mnt/c/Users/USER/Desktop/ODISE
+python -u demo/demo.py \
+  --input demo/examples/coco.jpg \
+  --output demo/coco_pred.jpg \
+  --vocab "black pickup truck, pickup truck; blue sky, sky"
 
 ```
 
