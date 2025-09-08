@@ -31,7 +31,7 @@ python -u demo/demo.py \
   --output demo/coco_pred.jpg \
   --vocab "black pickup truck, pickup truck; blue sky, sky" \
   --opts train.device=cpu model.device=cpu
-```bash
+```
 
 
 ```bash
