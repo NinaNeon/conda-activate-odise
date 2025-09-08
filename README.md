@@ -1,6 +1,6 @@
 
 `MultiScaleDeformableAttention` 又找不到是因為你這個新 shell 沒把 **PYTHONPATH / LD\_LIBRARY\_PATH** 設回來（之前那次能過就是因為有設）。照下面一次跑完就好：
-
+cd /mnt/c/Users/USER/Desktop/ODISE
 ```bash
 conda activate odise
 
