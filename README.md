@@ -87,6 +87,10 @@ python -u demo/demo.py \
   --vocab "black pickup truck, pickup truck; blue sky, sky"
 
 ```
+./tools/train_net.py \
+  --config-file configs/Panoptic/odise_label_coco_min_debug.py \
+  --num-gpus 0 \
+  OUTPUT_DIR=./output/odise_min_debug
 
 
 
